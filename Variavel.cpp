@@ -33,6 +33,9 @@ void AdicionaTabela(TabelaVariavel * tabela, char * Nome, char *Fonte, int Linha
 
 	tabela->Variaveis[tabela->Quantidade].Tamanho = Tamanho;
 	i = 0;
+
+	Opcode = Opcode / 8; // converte de bits para bytes
+
 	for (i = 0; i < 16; ++i) {  // assuming a 32 bit int
 		tabela->Variaveis[tabela->Quantidade].Opcode[15 - i] = Opcode & (1 << i) ? 1 : 0;
 	}
@@ -83,9 +86,11 @@ void AdicionaOpcode(TabelaVariavel  *tabela, int *Opcode) {
 	int i = 0;
 	int c = 0;
 	int fim = 16;
-	//faz uma copia do NomeLabel
+	//faz uma copia da Variavel
 
-	//procura o ponteiro da label
+	Opcode[0] = Opcode[0] / 8; // converte de bits para bytes
+
+	//procura o ponteiro da Variavel
 	while (c < tabela->Quantidade) {
 		if (tabela->Variaveis[c].Tamanho == _16BITS) {
 			fim = 16;

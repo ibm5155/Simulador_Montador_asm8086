@@ -2,8 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "Texto.h"
-#include "../../MT2D/building_functions/display_popup.h"
-#include "../../MT2D/Window_core.h"
+
+#include <MT2D/MessageBox/MT2D_MessageBox.h>
 
 void AdicionaLinha(Texto * texto, char * adicionar)
 {
@@ -77,7 +77,7 @@ Texto * CarregaTexto(char * endereco)
 		fclose(f);
 	}
 	else if(endereco){
-		print_popup("Arquivo nao encontrado ou endereco invalido");
+		MT2D_MessageBox("Arquivo nao encontrado ou endereco invalido");
 	}
 	return t;
 }

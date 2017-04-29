@@ -7,6 +7,41 @@
 #include <string.h>
 //CarregaPalavra
 
+
+/**
+Retorna a posição da tabela onde se encontra o registrador requisitado
+Caso não encontrado retorna -1.
+Caso a tabela seja invalida(nao existe), é retornado -2.
+*/
+int Instrucao_PegaID(TabelaInstrucao *Tab, char *Opcode) {
+	int Saida = -2;
+	if (Tab) {
+		int i = 0;
+		int j = 0;
+		for (i = 0; i < Tab->QntInstrucao; i++) {
+
+			j = 0; 
+			while(j < 8){
+				if (Opcode[j] != (char)Tab->Instrucoes[i].Opcode[j] + '0') {
+					j = 16;
+				}
+				if (j == 7) {
+					Saida = i;
+				}
+				j++;
+			}
+//			if (_stricmp(Opcode, Tab->Instrucoes[i].Opcode) == 0) {
+//				Saida = i;
+//			}
+		}
+		if (Saida == -2) {
+			Saida = -1;
+		}
+	}
+	return Saida;
+}
+
+
 //CRIAR
 void AdicionaTabela(TabelaInstrucao * tabela,char * Nome, bool * Opcode, char Operacao)
 {

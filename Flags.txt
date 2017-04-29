@@ -1,0 +1,27 @@
+;=== unsigned ===
+;not below	(CF=0) below (CF=1)
+;    above	(CF=0 and ZF=0)
+;
+;=== signed ===
+;not less	(SF=OF)
+;    greater	(SF=OF and ZF=0)
+;
+;not equal	(ZF=0) equal (ZF=1)
+;positive	(SF=0) negative(SF=1)
+;no overflow	(OF=0) overflow (OF=1)
+;parity odd 	(PF=0) ?
+;not aux carry	(AF=0) ?
+;hw-int enabled 	(IF=1) ?
+;forward dir 	(DF=0) ?
+;
+;=====================================================================================
+;FLAGS que serão utilizadas...
+;NOME | Tamanho | Faz Referencia a Memória | OPCODE | HIGH | LOW (referencia por nome)
+ CF     0         0                          0000     0      0
+ ZF     0         0                          0000     0      0
+ SF     0         0                          0000     0      0
+ OF     0         0                          0000     0      0
+ PF     0         0                          0000     0      0
+ AF     0         0                          0000     0      0
+ IF     0         0                          0000     0      0
+ DF     0         0                          0000     0      0

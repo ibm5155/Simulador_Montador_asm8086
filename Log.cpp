@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Texto.h"
-#include "../../MT2D/Window_core.h"
-#include "../../MT2D/building_functions/generic_string_reader.h"
+#include <MT2D/MT2D.h>
+#include <MT2D/InputBox/MT2D_InputBox_String.h>
 
 extern Texto *Log = 0;
 int  LinhaLog = 0;
@@ -25,7 +25,7 @@ void DestroiLog() {
 	CriaLog();
 }
 void SalvaLog() {
-	char *endereco = get_string_popup("Digite endereco e o nome do arquivo (ou somente o nome dele caso queira salvar na pasta do arquivo...)");
+	char *endereco = MT2D_InputBox_String("Digite endereco e o nome do arquivo (ou somente o nome dele caso queira salvar na pasta do arquivo...)");
 	FILE *f = fopen(endereco, "a");
 	if (!f) {
 		AdicionaLog("ERRO: Arquivo de log nao foi criado...");

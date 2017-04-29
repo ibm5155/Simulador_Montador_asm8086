@@ -19,4 +19,5 @@ struct TabelaInstrucao{
 TabelaInstrucao *CriaTabelaInstrucao();
 void LimpaTabela(TabelaInstrucao *tabela);
 void AdicionaTabela(TabelaInstrucao * tabela, char * Nome, bool * Opcode, char Operacao);
+int Instrucao_PegaID(TabelaInstrucao *Tab, char *Opcode);
 #endif

@@ -66,6 +66,8 @@ void AdicionaOpcode(TabelaLabel *tabelalabel, char *NomeLabel, int Opcode) {
 	strcpy(string, NomeLabel);
 	string[strlenght] = '\0';
 
+	Opcode = Opcode / 8; // converte de bits para bytes
+
 	//procura o ponteiro da label
 	while (c < tabelalabel->quantidade) {
 		if (_stricmp(string, tabelalabel->label[c].Nome) == 0) {

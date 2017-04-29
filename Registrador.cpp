@@ -7,6 +7,36 @@
 #include <string.h>
 
 /**
+Retorna a posição da tabela onde se encontra o registrador requisitado
+Caso não encontrado retorna -1.
+Caso a tabela seja invalida(nao existe), é retornado -2.
+*/
+int Registrador_PegaID(TabelaRegistrador *Tab, char *Opcode,bool Por_Opcode) {
+	int Saida = -2;
+	if (Tab) {
+		int i = 0;
+		int j = 0;
+		for (i = 0; i < Tab->Quantidade; i++) {
+
+			j = 0;
+			while (j < 4) {
+				if (Opcode[j] != (char)Tab->Registradores[i].Opcode[j] + '0') {
+					j = 16;
+				}
+				if (j == 3) {
+					Saida = i;
+				}
+				j++;
+			}
+		}
+		if (Saida == -2) {
+			Saida = -1;
+		}
+	}
+	return Saida;
+}
+
+/**
 	Retorna a posição da tabela onde se encontra o registrador requisitado
 	Caso não encontrado retorna -1.
 	Caso a tabela seja invalida(nao existe), é retornado -2.
@@ -27,27 +57,27 @@ int Registrador_PegaID(TabelaRegistrador *Tab, char *Nome) {
 	return Saida;
 }
 
-int Registrador_RecebeDado(Registrador *Reg) {
+int Registrador_RecebeDado(TabelaRegistrador *Tab, Registrador *Reg) {
 	if (Reg->Tamanho == _8BITS) {
 		return Reg->Dado;
 	}
 //	senão é de 16 bits
 	int Dado = 0;
 	char *Dado1=0, *Dado2=0, Dado_Juntado[17];
-	Dado1 = InteiroParaCharBinario(Reg->High->Dado, _8BITS);
-	Dado2= InteiroParaCharBinario(Reg->Low->Dado, _8BITS);
+	Dado1 = InteiroParaCharBinario(Tab->Registradores[Reg->High_offset].Dado, _8BITS);
+	Dado2= InteiroParaCharBinario(Tab->Registradores[Reg->Low_offset].Dado, _8BITS);
 	for (int i = 0; i < 8; i++) {
 		Dado_Juntado[i] = Dado1[i];
 	}
 	for (int i = 0; i < 8; i++) {
-		Dado_Juntado[i+8] = Dado1[i];
+		Dado_Juntado[i+8] = Dado2[i];
 	}
 	Dado_Juntado[16] = '\0';
 	Dado = CharBinarioParaInteiro(Dado_Juntado);
 	return Dado;
 }
 
-void Registrador_AdicionaDado(Registrador *Reg, int Dado) {
+void Registrador_AdicionaDado(TabelaRegistrador *Tab, Registrador *Reg, int Dado) {
 	if (Reg->Tamanho == _16BITS) {
 		char *DadoCompleto;
 		char Dado1[9], Dado2[9];
@@ -57,12 +87,12 @@ void Registrador_AdicionaDado(Registrador *Reg, int Dado) {
 		}
 		Dado1[8] = '\0';
 		for (int i = 0; i < 8; i++) {
-			Dado1[i] = DadoCompleto[i+8];
+			Dado2[i] = DadoCompleto[i+8];
 		}
-		Dado1[8] = '\0';
+		Dado2[8] = '\0';
 		//Transfere os dados entre os registradores de 8 bits
-		Reg->High->Dado = CharBinarioParaInteiro(Dado1);
-		Reg->Low->Dado = CharBinarioParaInteiro(Dado2);
+		Tab->Registradores[Reg->High_offset].Dado = CharBinarioParaInteiro(Dado1);
+		Tab->Registradores[Reg->Low_offset].Dado = CharBinarioParaInteiro(Dado2);
 
 	}
 	else {
@@ -86,8 +116,8 @@ void AdicionaTabela(TabelaRegistrador * tabela, char * Nome, bool Tamanho, bool 
 	tabela->Registradores[tabela->Quantidade].Dado = 0;
 	tabela->Registradores[tabela->Quantidade].FazReferenciaMemoria = FazReferenciaMemoria;
 	tabela->Registradores[tabela->Quantidade].Tamanho = Tamanho;
-	tabela->Registradores[tabela->Quantidade].High = 0;
-	tabela->Registradores[tabela->Quantidade].Low = 0;
+	tabela->Registradores[tabela->Quantidade].High_offset = -1;
+	tabela->Registradores[tabela->Quantidade].Low_offset = -1;
 	for (i = 0; i < 4; i++) {
 		tabela->Registradores[tabela->Quantidade].Opcode[i] = Opcode[i] == '0' ? false : true;
 	}
@@ -97,7 +127,7 @@ void AdicionaTabela(TabelaRegistrador * tabela, char * Nome, bool Tamanho, bool 
 		for (i = 0; i < tabela->Quantidade; i++) {
 			if (strcmp(High, tabela->Registradores[i].Nome) == 0) {
 				//achou o registrador
-				tabela->Registradores[tabela->Quantidade].High = &tabela->Registradores[i];
+				tabela->Registradores[tabela->Quantidade].High_offset  = i;
 				i = tabela->Quantidade + 10;
 			}
 		}if (i == tabela->Quantidade) {
@@ -112,7 +142,7 @@ void AdicionaTabela(TabelaRegistrador * tabela, char * Nome, bool Tamanho, bool 
 		for (i = 0; i < tabela->Quantidade; i++) {
 			if (strcmp(Low, tabela->Registradores[i].Nome) == 0) {
 				//achou o registrador
-				tabela->Registradores[tabela->Quantidade].Low = &tabela->Registradores[i];
+				tabela->Registradores[tabela->Quantidade].Low_offset = i;
 				i = tabela->Quantidade + 10;
 			}
 		}if (i == tabela->Quantidade) {
@@ -126,7 +156,18 @@ void AdicionaTabela(TabelaRegistrador * tabela, char * Nome, bool Tamanho, bool 
 	tabela->Quantidade++;
 }
 
-TabelaRegistrador * CriaTabelaRegistrador()
+TabelaRegistrador * CriaTabelaRegistradorVazia()
+{
+	TabelaRegistrador *tabela = 0;
+	tabela = (TabelaRegistrador*)malloc(sizeof(TabelaRegistrador));
+	tabela->Quantidade = 0;
+	tabela->Registradores = 0;
+	tabela->TabelaValida = SIM;
+
+	return tabela;
+}
+
+TabelaRegistrador * CriaTabelaRegistrador(char *Endereco)
 {
 	FILE *f = 0;
 	char *nome = 0;
@@ -143,8 +184,12 @@ TabelaRegistrador * CriaTabelaRegistrador()
 	int i = 0;
 	bool ParserValido = false;
 	TabelaRegistrador *tabela = 0;
-
-	f = fopen("Registrador.txt", "r");
+	if (Endereco == NULL) {
+		f = fopen("Registrador.txt", "r");
+	}
+	else {
+		f = fopen(Endereco, "r");
+	}
 	if (f) {
 		//só é criado a tabela se tiver certeza de ter pelo menos um arquivo aberto...
 		tabela = (TabelaRegistrador*)malloc(sizeof(TabelaRegistrador));
@@ -157,7 +202,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 			//é checado elemento por elemento para ver se em alguma parte está faltando alguma informação
 			nome = CarregaPalavra(f);
 			if (nome == 0) {
-				sprintf(Erro, "Erro registrador.txt:nome do registrador nao encontrado");
+				sprintf(Erro, "Erro %s:nome do registrador nao encontrado",(Endereco == NULL? "Registrador,txt" : Endereco));
 				AdicionaLog(Erro);
 				AtualizaTelaMontador();
 				tabela->TabelaValida = NAO;
@@ -165,7 +210,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 			else {
 				Tamanho = CarregaPalavra(f);
 				if (Tamanho == 0) {
-					sprintf(Erro, "Erro registrador.txt:Tamanho nao encontrado do registrador %s", nome);
+					sprintf(Erro, "Erro %s:Tamanho nao encontrado do registrador %s", (Endereco == NULL ? "Registrador,txt" : Endereco), nome);
 					AdicionaLog(Erro);
 					AtualizaTelaMontador();
 					tabela->TabelaValida = NAO;
@@ -173,7 +218,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 				else {
 					RefMem = CarregaPalavra(f);
 					if (RefMem == 0) {
-						sprintf(Erro, "Erro registrador.txt:ref memoria nao encontrada de %s", nome);
+						sprintf(Erro, "Erro %s:ref memoria nao encontrada de %s", (Endereco == NULL ? "Registrador,txt" : Endereco),nome);
 						AdicionaLog(Erro);
 						AtualizaTelaMontador();
 						tabela->TabelaValida = NAO;
@@ -181,7 +226,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 					else{
 						Opcode = CarregaPalavra(f);
 						if (Opcode == 0) {
-							sprintf(Erro, "Erro registrador.txt: Opcode nao encontrado de %s", nome);
+							sprintf(Erro, "Erro %s: Opcode nao encontrado de %s", (Endereco == NULL ? "Registrador,txt" : Endereco), nome);
 							AdicionaLog(Erro);
 							AtualizaTelaMontador();
 							tabela->TabelaValida = NAO;
@@ -189,7 +234,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 						else {
 							HIGH = CarregaPalavra(f);
 							if (HIGH == 0) {
-								sprintf(Erro, "Erro registrador.txt:ref HIGH nao encontrada de %s", nome);
+								sprintf(Erro, "Erro %s:ref HIGH nao encontrada de %s", (Endereco == NULL ? "Registrador,txt" : Endereco), nome);
 								AdicionaLog(Erro);
 								AtualizaTelaMontador();
 								tabela->TabelaValida = NAO;
@@ -197,7 +242,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 							else {
 								LOW = CarregaPalavra(f);
 								if (LOW == 0) {
-									sprintf(Erro, "Erro registrador.txt:ref LOW nao encontrada de %s", nome);
+									sprintf(Erro, "Erro %s:ref LOW nao encontrada de %s", (Endereco == NULL ? "Registrador,txt" : Endereco),  nome);
 									AdicionaLog(Erro);
 									AtualizaTelaMontador();
 									tabela->TabelaValida = NAO;
@@ -221,19 +266,19 @@ TabelaRegistrador * CriaTabelaRegistrador()
 							ParserValido = true;
 						}
 						else {
-							sprintf(Erro, "Erro registrador.txt:opcao invalida para o opcode %s em %s", Opcode,nome);
+							sprintf(Erro, "Erro %s:opcao invalida para o opcode %s em %s", (Endereco == NULL ? "Registrador,txt" : Endereco), Opcode,nome);
 							AdicionaLog(Erro);
 							AtualizaTelaMontador();
 							tabela->TabelaValida = NAO;
 						}
 					}else {
-						sprintf(Erro, "Erro registrador.txt:opcao invalida para o tamanho de %s", nome);
+						sprintf(Erro, "Erro %s:opcao invalida para o tamanho de %s", (Endereco == NULL ? "Registrador,txt" : Endereco), nome);
 						AdicionaLog(Erro);
 						AtualizaTelaMontador();
 						tabela->TabelaValida = NAO;
 					}
 				}else {
-					sprintf(Erro, "Erro registrador.txt:opcao invalida para o tamanho de %s", nome);
+					sprintf(Erro, "Erro %s:opcao invalida para o tamanho de %s", (Endereco == NULL ? "Registrador,txt" : Endereco),  nome);
 					AdicionaLog(Erro);
 					AtualizaTelaMontador();
 					tabela->TabelaValida = NAO;
@@ -261,7 +306,7 @@ TabelaRegistrador * CriaTabelaRegistrador()
 		fclose(f);
 	}
 	else {
-		sprintf(Erro, "Erro arquivo que contem os registradores (registrador.txt) nao foi encontrado");
+		sprintf(Erro, "Erro arquivo que contem os registradores (%s) nao foi encontrado", (Endereco == NULL ? "Registrador,txt" : Endereco));
 		AdicionaLog(Erro);
 		AtualizaTelaMontador();
 	}

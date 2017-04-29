@@ -3,11 +3,13 @@
 //==========================================
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../MT2D/Window_core.h"
-#include "../../MT2D/system_calls.h"
-#include "../../MT2D/Keyboard.h"
-#include "../../MT2D/building_functions/generic_string_reader.h"
-#include "../../MT2D/building_functions/display_popup_with_result.h"
+#include <MT2D/MT2D.h>
+#include <MT2D/MT2D_Display.h>
+#include <MT2D/MT2D_Layout.h>
+#include <MT2D/MT2D_System_Calls.h>
+#include <MT2D/MT2D_Keyboard.h>
+#include <MT2D/InputBox/MT2D_InputBox_String.h>
+#include <MT2D/MessageBox/MT2D_MessageBox_With_Result.h>
 #include "Mmain.h"
 #include "Log.h"
 #include "Texto.h"
@@ -33,9 +35,9 @@ void Desenha_Bordas_Janelas() {
 		InicioVerJanelas[0] = 0;
 		InicioVerJanelas[1] = 2;
 		InicioVerJanelas[2] = 19;
-		create_window_layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[0], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[0], NAO, NAO, ' ', DISPLAY_WINDOW1);
 	}
 	else if (MontadorSelecionado[1] == SIM) {
 		TamanhoVerJanelas[0] = 2;
@@ -44,9 +46,9 @@ void Desenha_Bordas_Janelas() {
 		InicioVerJanelas[0] = 0;
 		InicioVerJanelas[1] = 2;
 		InicioVerJanelas[2] = 21;
-		create_window_layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[0], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[0], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
 
 	}
 	else {
@@ -56,9 +58,9 @@ void Desenha_Bordas_Janelas() {
 		InicioVerJanelas[0] = 0;
 		InicioVerJanelas[1] = 2;
 		InicioVerJanelas[2] = 13;
-		create_window_layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
-		create_window_layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[0], InicioVerJanelas[0], TamanhoHorJanelas[0], TamanhoVerJanelas[0], MontadorSelecionado[1], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[1], InicioVerJanelas[1], TamanhoHorJanelas[1], TamanhoVerJanelas[1], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
+		MT2D_Create_Window_Layout(InicioHorJanelas[2], InicioVerJanelas[2], TamanhoHorJanelas[2], TamanhoVerJanelas[2], MontadorSelecionado[2], NAO, NAO, ' ', DISPLAY_WINDOW1);
 	}
 }
 
@@ -144,11 +146,11 @@ bool Mmenu1() {//controla as animações e ações do menu 1, retorna SIM se é pra s
 	MontadorSelecionado[2] = NAO;
 	do {
 		//Leitura de teclas
-		if (Keyboard_touched()) {
-			Tecla = Keyboard_keytouched();
-			if (Tecla == _key) {//uma das setas foram acionadas. Precisa checar novamente o teclado pra saber qual delas foi acionada
-				Tecla = Keyboard_keytouched();
-				if (Tecla == key_left) {
+		if (MT2D_Keyboard_touched()) {
+			Tecla = MT2D_Keyboard_keytouched();
+			if (Tecla == arrow_key_pressed) {//uma das setas foram acionadas. Precisa checar novamente o teclado pra saber qual delas foi acionada
+				Tecla = MT2D_Keyboard_keytouched();
+				if (Tecla == arrow_left_pressed) {
 					if (Selecionado == 1) {
 						Selecionado = 4;
 					}
@@ -156,7 +158,7 @@ bool Mmenu1() {//controla as animações e ações do menu 1, retorna SIM se é pra s
 						Selecionado--;
 					}
 					Duracao = 0;
-				}else if (Tecla == key_right) {
+				}else if (Tecla == arrow_right_pressed) {
 					if (Selecionado == 4) {
 						Selecionado = 1;
 					}
@@ -166,7 +168,7 @@ bool Mmenu1() {//controla as animações e ações do menu 1, retorna SIM se é pra s
 					Duracao = 0;
 				}
 			}
-			else if (Tecla == enter) {//entra na opção marcada
+			else if (Tecla == enter_pressed) {//entra na opção marcada
 				switch (Selecionado) {
 				case 4: 
 					//botão sair
@@ -183,7 +185,7 @@ bool Mmenu1() {//controla as animações e ações do menu 1, retorna SIM se é pra s
 				case 1:
 					//botão abrir arquivo fonte
 					Destroi_Texto(ArquivoFonte);
-					ArquivoFonte = CarregaTexto(get_string_popup("Digite o nome e o endereco do arquivo fonte"));
+					ArquivoFonte = CarregaTexto(MT2D_InputBox_String("Digite o nome e o endereco do arquivo fonte"));
 					if (ArquivoFonte) {
 						AdicionaLog("Arquivo Fonte Carregado");
 					}
@@ -218,8 +220,8 @@ bool Mmenu1() {//controla as animações e ações do menu 1, retorna SIM se é pra s
 		}
 		Desenha_Codigo_Fonte();
 		Desenha_Log();
-		Delay(50);
-		print_display(DISPLAY_WINDOW1);
+		MT2D_System_Delay(50);
+		MT2D_Draw_Window(DISPLAY_WINDOW1);
 	} while (Tecla != 9 && !Saida);//TAB
 	if (Tecla == 9) {
 		MontadorSelecionado[0] = false;
@@ -237,18 +239,18 @@ void Mmenu2() {//controla basicamente a posição do texto...
 		Desenha_Codigo_Fonte();
 		Desenha_Log();
 		insert_number_on_display(ArquivoFonte ? ArquivoFonte->QntLinhas : 0 , InicioVerJanelas[2], InicioHorJanelas[1] + 1, DISPLAY_WINDOW1);// imprime  quantidade linhas contidos no arquivofonte, caso o arquivo fonte não exista imprima 0 (senão da null pointer,...)
-		print_display(DISPLAY_WINDOW1);
-		while (!Keyboard_touched()) Delay(10);
-		Tecla = Keyboard_keytouched();
-		if (Tecla == _key) {
-			Tecla = Keyboard_keytouched();
-			if (Tecla == key_down) {
+		MT2D_Draw_Window(DISPLAY_WINDOW1);
+		while (!MT2D_Keyboard_touched()) MT2D_System_Delay(10);
+		Tecla = MT2D_Keyboard_keytouched();
+		if (Tecla == arrow_key_pressed) {
+			Tecla = MT2D_Keyboard_keytouched();
+			if (Tecla == arrow_down_pressed) {
 				if (ArquivoFonte) {
 					if (LinhaArquivoFonte <= ArquivoFonte->QntLinhas) {//vai para a parte de baixo do texto e para até sumir a ultima linha
 						LinhaArquivoFonte++;
 					}
 				}
-			}else if (Tecla == key_up) {//sobe o texto
+			}else if (Tecla == arrow_up_pressed) {//sobe o texto
 				if (LinhaArquivoFonte > 0) {
 					LinhaArquivoFonte--;
 				}
@@ -278,27 +280,27 @@ bool Mmenu3() {//controla basicamente a posição do log...
 		Desenha_Menu1(0);
 		Desenha_Codigo_Fonte();
 		Desenha_Log();
-		print_display(DISPLAY_WINDOW1);
-		while (!Keyboard_touched()) Delay(10);
-		Tecla = Keyboard_keytouched();
-		if (Tecla == _key) {
-			Tecla = Keyboard_keytouched();
-			if (Tecla == key_up) {
+		MT2D_Draw_Window(DISPLAY_WINDOW1);
+		while (!MT2D_Keyboard_touched()) MT2D_System_Delay(10);
+		Tecla = MT2D_Keyboard_keytouched();
+		if (Tecla == arrow_key_pressed) {
+			Tecla = MT2D_Keyboard_keytouched();
+			if (Tecla == arrow_up_pressed) {
 				if (Log) {
 					if (LinhaLog < Log->QntLinhas -1) {//vai para a parte de baixo do log e para até sumir a ultima linha
 						LinhaLog++;
 					}
 				}
 			}
-			else if (Tecla == key_down) {//sobe o log
+			else if (Tecla == arrow_down_pressed) {//sobe o log
 				if (LinhaLog > 0) {
 					LinhaLog--;
 				}
 			}
-			else if (Tecla == key_right) {
+			else if (Tecla == arrow_right_pressed) {
 				ColunaLog++;
 			}
-			else if (Tecla == key_left && ColunaLog > 0) {
+			else if (Tecla == arrow_left_pressed && ColunaLog > 0) {
 				ColunaLog--;
 			}
 			else if (Tecla == 71) {// botão HOME
@@ -308,8 +310,8 @@ bool Mmenu3() {//controla basicamente a posição do log...
 				LinhaLog = Log->QntLinhas - 1;
 			}
 		}
-		else if (Tecla == enter) {
-			if (print_popup_wiht_result("Deseja apagar o arquivo de log?", "", "SIM", "NAO") == SIM) {
+		else if (Tecla == enter_pressed) {
+			if (MT2D_MessageBox_With_Result("Deseja apagar o arquivo de log?", "", "SIM", "NAO") == SIM) {
 				DestroiLog();
 			}
 		}
@@ -326,7 +328,7 @@ void Mmain()
 	Desenha_Bordas_Janelas();
 	DestroiLog();
 	CriaLog();
-	print_display(DISPLAY_WINDOW1);
+	MT2D_Draw_Window(DISPLAY_WINDOW1);
 	do {
 
 		if (MontadorSelecionado[0] == SIM) {
@@ -348,5 +350,5 @@ void AtualizaTelaMontador(){
 	Desenha_Menu1(0);
 	Desenha_Codigo_Fonte();
 	Desenha_Log();
-	print_display(DISPLAY_WINDOW1);
+	MT2D_Draw_Window(DISPLAY_WINDOW1);
 }

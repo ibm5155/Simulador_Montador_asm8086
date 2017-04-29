@@ -1,0 +1,6 @@
+;REGISTRADORES de segmento que serão utilizadas...
+;NOME | Tamanho | Faz Referencia a Memória | OPCODE | HIGH | LOW (referencia por nome)
+ CS     1         0                          0000     0      0
+ DS     1         0                          0000     0      0
+ ES     1         0                          0000     0      0
+ SS     1         0                          0000     0      0

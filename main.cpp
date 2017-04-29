@@ -1,7 +1,8 @@
-#include "../../MT2D/building_functions/generic_line.h"
-#include "../../MT2D/Window_Core.h"
-#include "../../MT2D/Keyboard.h"
-#include "../../MT2D/system_calls.h"
+#include <MT2D/Tools/Video/MT2D_Generic_Line.h>
+#include <MT2D/MT2D.h>
+#include <MT2D/MT2D_Display.h>
+#include <MT2D/MT2D_Keyboard.h>
+#include <MT2D/MT2D_System_Calls.h>
 
 #include "Mmain.h"
 #include "Smain.h"
@@ -18,7 +19,7 @@ void Desenha_Ruido() {
 		if (j == 3) {
 			j = 0;
 		}
-		line_draw_vertical(i, j + 176);
+		MT2D_Line_Draw_Vertical(i, j + 176);
 		i++;
 		j++;
 	}
@@ -35,7 +36,7 @@ void Desenha_Espaco_Limpo() {
 void main() {
 	unsigned char tecla=0;
 	do {
-		clear_display();
+		MT2D_Clear_Main_Window();
 		Desenha_Ruido();
 		Desenha_Espaco_Limpo();
 		insert_string_on_display("Simulador\\Montador por Lucas Zimerman e Caio Emidio", 5, 10, DISPLAY_WINDOW1);
@@ -50,10 +51,10 @@ void main() {
 		insert_string_on_display(" TAB (altera entre um objeto em foco), Setas, ENTER (Acao)", 16, 10, DISPLAY_WINDOW1);
 		insert_string_on_display("P (proxima acao no simulador)", 17, 11, DISPLAY_WINDOW1);
 
-		print_display(DISPLAY_WINDOW1);
-		if (Keyboard_touched()) {
+		MT2D_Draw_Window(DISPLAY_WINDOW1);
+		if (MT2D_Keyboard_touched()) {
 			do {
-				tecla = Keyboard_keytouched();
+				tecla = MT2D_Keyboard_keytouched();
 			} while (tecla < '1' && tecla > '3');
 			if (tecla == '1') {
 				Mmain();
@@ -63,7 +64,7 @@ void main() {
 			}
 		}
 		else {
-			Delay(30);
+			MT2D_System_Delay(30);
 		}
 	} while (tecla != '3');
 }

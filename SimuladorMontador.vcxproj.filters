@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{663131a6-aa6e-48d4-b2aa-056f61475d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Estrutura de Dados">
+      <UniqueIdentifier>{8f2b9e3b-91e2-44b9-bc37-3f85fd511aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Estrutura de Dados\Montador">
+      <UniqueIdentifier>{a2f5deea-b2ba-43cb-b623-0100a360157e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Estrutura de Dados\Simulador">
+      <UniqueIdentifier>{84992eb3-a9d1-4bee-a0b8-76dc69b21753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Estrutura de Dados\Ambos">
+      <UniqueIdentifier>{900b6495-a4d2-4a43-9fb4-314f673d2d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main_MontadorSimulador">
+      <UniqueIdentifier>{985bcb69-3265-4c74-9484-6eff5127a5ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main_MontadorSimulador\Montador">
+      <UniqueIdentifier>{0e6b597d-3a21-4a58-b0aa-0e1781709440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main_MontadorSimulador\Simulador">
+      <UniqueIdentifier>{e6f0d34f-d589-45c6-b7cf-fe2a5e317410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\MsgBox">
+      <UniqueIdentifier>{99ee7779-e017-430d-96e2-3d02e81ec420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\InputBox">
+      <UniqueIdentifier>{7c2c0eb8-1d3f-4bfb-b34e-c1afefbffc61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\Menu">
+      <UniqueIdentifier>{860461c7-8a54-4fa2-8557-5f93269ce808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\Cursor">
+      <UniqueIdentifier>{767adbb7-a224-4b79-924d-ed0539ebde38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\Lines">
+      <UniqueIdentifier>{69eca00a-01b7-41f3-81d0-fa69c10547c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Smain.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="Mmain.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Montador</Filter>
+    </ClCompile>
+    <ClCompile Include="Montador.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Montador</Filter>
+    </ClCompile>
+    <ClCompile Include="Instrucao.cpp">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClCompile>
+    <ClCompile Include="Registrador.cpp">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClCompile>
+    <ClCompile Include="Texto.cpp">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClCompile>
+    <ClCompile Include="Variavel.cpp">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClCompile>
+    <ClCompile Include="Pilha.cpp">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="RAM.cpp">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClCompile>
+    <ClCompile Include="PilhaObjetos.cpp">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClCompile>
+    <ClCompile Include="Dump_Memoria.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="Dump_Registrador.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="Dump_Simulacao.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClCompile>
+    <ClCompile Include="Dump_Cache.cpp">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Display.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Keyboard.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Layout.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_System_Calls.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox.cpp">
+      <Filter>Source Files\API\MsgBox</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox_With_Result.cpp">
+      <Filter>Source Files\API\MsgBox</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\InputBox\MT2D_InputBox_String.cpp">
+      <Filter>Source Files\API\InputBox</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\UserInterface\MT2D_Menu.cpp">
+      <Filter>Source Files\API\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Cursor\Cursor.cpp">
+      <Filter>Source Files\API\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\Video\MT2D_Generic_Line.cpp">
+      <Filter>Source Files\API\Lines</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mmain.h">
+      <Filter>Source Files\Main_MontadorSimulador\Montador</Filter>
+    </ClInclude>
+    <ClInclude Include="Montador.h">
+      <Filter>Source Files\Main_MontadorSimulador\Montador</Filter>
+    </ClInclude>
+    <ClInclude Include="Smain.h">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="enums.h">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClInclude>
+    <ClInclude Include="Instrucao.h">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClInclude>
+    <ClInclude Include="Registrador.h">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClInclude>
+    <ClInclude Include="Texto.h">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClInclude>
+    <ClInclude Include="Variavel.h">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClInclude>
+    <ClInclude Include="CPU.h">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Pilha.h">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="ULA.h">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Source Files\Estrutura de Dados\Ambos</Filter>
+    </ClInclude>
+    <ClInclude Include="PilhaObjetos.h">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClInclude>
+    <ClInclude Include="Dump_Memoria.h">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Dump_Registrador.h">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Dump_Simulacao.h">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="RAM.h">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Source Files\Estrutura de Dados\Montador</Filter>
+    </ClInclude>
+    <ClInclude Include="Cache.h">
+      <Filter>Source Files\Estrutura de Dados\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="Dump_Cache.h">
+      <Filter>Source Files\Main_MontadorSimulador\Simulador</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Display.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Keyboard.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Layout.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_System_Calls.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Terminal_Define.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox.h">
+      <Filter>Source Files\API\MsgBox</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox_With_Result.h">
+      <Filter>Source Files\API\MsgBox</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\InputBox\MT2D_InputBox_String.h">
+      <Filter>Source Files\API\InputBox</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\UserInterface\MT2D_Menu.h">
+      <Filter>Source Files\API\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Cursor\Cursor.h">
+      <Filter>Source Files\API\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\Video\MT2D_Generic_Line.h">
+      <Filter>Source Files\API\Lines</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Instrucao.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Registrador.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Flags.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Segmento.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

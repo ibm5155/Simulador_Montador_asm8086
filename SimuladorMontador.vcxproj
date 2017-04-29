@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0B971531-6FF2-4E1C-862F-456857DFEE4C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SimuladorMontador</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Programacao\Frameworks\MT2D 2.0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Programacao\Frameworks\MT2D 2.0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\Programacao\Frameworks\MT2D 2.0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\Programacao\Frameworks\MT2D 2.0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Cursor\Cursor.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\InputBox\MT2D_InputBox_String.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox_With_Result.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Display.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Keyboard.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Layout.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_System_Calls.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\UserInterface\MT2D_Menu.cpp" />
+    <ClCompile Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\Video\MT2D_Generic_Line.cpp" />
+    <ClCompile Include="Dump_Cache.cpp" />
+    <ClCompile Include="Dump_Memoria.cpp" />
+    <ClCompile Include="Dump_Registrador.cpp" />
+    <ClCompile Include="Dump_Simulacao.cpp" />
+    <ClCompile Include="Instrucao.cpp" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mmain.cpp" />
+    <ClCompile Include="Montador.cpp" />
+    <ClCompile Include="Pilha.cpp" />
+    <ClCompile Include="PilhaObjetos.cpp" />
+    <ClCompile Include="RAM.cpp" />
+    <ClCompile Include="Registrador.cpp" />
+    <ClCompile Include="Smain.cpp" />
+    <ClCompile Include="Texto.cpp" />
+    <ClCompile Include="Variavel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cache.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Cursor\Cursor.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\InputBox\MT2D_InputBox_String.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MessageBox\MT2D_MessageBox_With_Result.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Display.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Keyboard.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Layout.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_System_Calls.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\MT2D_Terminal_Define.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\UserInterface\MT2D_Menu.h" />
+    <ClInclude Include="D:\Programacao\Frameworks\MT2D 2.0\MT2D\Tools\Video\MT2D_Generic_Line.h" />
+    <ClInclude Include="Dump_Cache.h" />
+    <ClInclude Include="Dump_Memoria.h" />
+    <ClInclude Include="Dump_Registrador.h" />
+    <ClInclude Include="Dump_Simulacao.h" />
+    <ClInclude Include="enums.h" />
+    <ClInclude Include="CPU.h" />
+    <ClInclude Include="Instrucao.h" />
+    <ClInclude Include="Label.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Mmain.h" />
+    <ClInclude Include="Montador.h" />
+    <ClInclude Include="Pilha.h" />
+    <ClInclude Include="PilhaObjetos.h" />
+    <ClInclude Include="RAM.h" />
+    <ClInclude Include="Registrador.h" />
+    <ClInclude Include="Smain.h" />
+    <ClInclude Include="Texto.h" />
+    <ClInclude Include="ULA.h" />
+    <ClInclude Include="Variavel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Flags.txt" />
+    <Text Include="Instrucao.txt" />
+    <Text Include="Registrador.txt" />
+    <Text Include="Segmento.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

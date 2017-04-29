@@ -2,5 +2,6 @@
 #define _SMAIN_H
 
 void Smain();
+bool Menu_Simulador();
 
 #endif

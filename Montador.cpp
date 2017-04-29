@@ -12,18 +12,19 @@
 #include "enums.h"
 #include "Mmain.h"
 #include "Montador.h"
-#include "../../MT2D/Window_core.h"
-#include "../../MT2D/system_calls.h"
-#include "../../MT2D/Keyboard.h"
-#include "../../MT2D/building_functions/generic_menu.h"
-#include "../../MT2D/building_functions/display_popup_with_result.h"
-#include "../../MT2D/building_functions/display_popup.h"
-
-#include "../../MT2D/building_functions/generic_string_reader.h"
+#include <MT2D/MT2D.h>
+#include <MT2D/MT2D_Display.h>
+#include <MT2D/MT2D_Layout.h>
+#include <MT2D/MT2D_System_Calls.h>
+#include <MT2D/MT2D_Keyboard.h>
+#include <MT2D/Tools/UserInterface/MT2D_Menu.h>
+#include <MT2D/MessageBox/MT2D_MessageBox_With_Result.h>
+#include <MT2D/MessageBox/MT2D_MessageBox.h>
+#include <MT2D/InputBox/MT2D_InputBox_String.h>
 
 char BUFFmsg[400];
 int ParserMontadorErros = 0;
-int PonteiroOpcode = 16;//indica em que posição está o próximo estágio. (utilizado para salvar o opcode das labels
+int PonteiroOpcode = 2048;//indica em que posição está o próximo estágio. (utilizado para salvar o opcode das labels
 
 TabelaLabel *TLabels=0;
 TabelaInstrucao *TInstrucao=0;
@@ -859,8 +860,9 @@ eços simbólicos por endereços numéricos
 											}
 											else {
 												validador = true;
-												PonteiroOpcode += 8;//instrução  8 bits
-
+												AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
+												AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+												PonteiroOpcode += 16;//instrução  8 bits + 8 bits de lixo
 											}
 										}
 
@@ -957,7 +959,8 @@ eços simbólicos por endereços numéricos
 														AdicionaTabela(TOBJ, ProcuraLabel(TLabels, ObjetosEncontrados[2]), LABEL, NAO);
 													}
 													validador = true;
-													PonteiroOpcode += 40;//instrução  8 bits, end registrador 16 bits, numero ou label 16 bits
+													AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+													PonteiroOpcode += 48;//instrução  8 bits, end registrador 16 bits, numero ou label 16 bits, lixo 8 bits
 												}
 												else if (VariaveisEncontrados[0]) {// variavel 10h ou label
 													AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
@@ -970,7 +973,8 @@ eços simbólicos por endereços numéricos
 														AdicionaTabela(TOBJ, ProcuraLabel(TLabels, ObjetosEncontrados[2]), LABEL, NAO);
 													}
 													validador = true;
-													PonteiroOpcode += 40;//instrução  8 bits, variavel 16 bits, valor 16 bits
+													AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+													PonteiroOpcode += 48;//instrução  8 bits, variavel 16 bits, valor 16 bits, lixo 8 bits
 												}
 											}
 										}
@@ -980,7 +984,8 @@ eços simbólicos por endereços numéricos
 													validador = true;
 													AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 													AdicionaTabela(TOBJ, &*RegistradoresEncontrados[0], REGISTRADOR, SIM);
-													PonteiroOpcode += 24;//instrução  8 bits, end registrador 16 bits
+													AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+													PonteiroOpcode += 32;//instrução  8 bits, end registrador 16 bits, lixo 8 bits
 												}else {
 													sprintf(BUFFmsg, "Parser %d linha %d: Erro, Registrador %s precisa ser de 16 bits: %s", NivelChamada, LinhaAtual + 1, ObjetosEncontrados[1], fonte->Fonte);
 													AdicionaLog(BUFFmsg);
@@ -991,22 +996,25 @@ eços simbólicos por endereços numéricos
 													validador = true;
 													AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 													AdicionaTabela(TOBJ, &*VariaveisEncontrados[0], VARIAVEL, SIM);
-													PonteiroOpcode += 24;//instrução  8 bits, variavel 16 bits
+													AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+													PonteiroOpcode += 32;//instrução  8 bits, variavel 16 bits, lixo 8 bits
 												}else {
 													sprintf(BUFFmsg, "Parser %d linha %d: Erro, Variavel %s precisa ser de 16 bits: %s", NivelChamada, LinhaAtual + 1, ObjetosEncontrados[1], fonte->Fonte);
 													AdicionaLog(BUFFmsg);
 												}
-											}else if (ObjetosEncontradosTipos[1] == LABEL) {// JE LABEL
+											}else if (ObjetosEncontradosTipos[1] == LABEL && ObjetosEncontrados_FazRefMemoria[1] == SIM) {// JE [LABEL]
 												validador = true;
 												AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 												AdicionaTabela(TOBJ, ProcuraLabel(TLabels, ObjetosEncontrados[1]), LABEL, NAO);
-												PonteiroOpcode += 24;//instrução  8 bits, label 16 bits
-											}else if (ObjetosEncontradosTipos[1] == NUMERO && ObjetosEncontrados_FazRefMemoria[1] == SIM) {// JE LABEL
+												AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+												PonteiroOpcode += 32;//instrução  8 bits, label 16 bits, lixo 8 bitts
+											}else if (ObjetosEncontradosTipos[1] == NUMERO && ObjetosEncontrados_FazRefMemoria[1] == SIM) {// JE [600h]
 												validador = true;
 												AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 												Parser_Numero(ObjetosEncontrados[2]);
 												AdicionaTabela(TOBJ, InteiroParaCharBinario(Parser_Numero_Validado, _16BITS), NUMERO, _16BITS);
-												PonteiroOpcode += 24;//instrução  8 bits, label 16 bits
+												AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+												PonteiroOpcode += 32;//instrução  8 bits, label 16 bits, lixo 8 bits
 											}
 										}
 										
@@ -1094,8 +1102,9 @@ eços simbólicos por endereços numéricos
 													Parser_Numero(ObjetosEncontrados[2]);
 													AdicionaTabela(TOBJ,InteiroParaCharBinario(Parser_Numero_Validado, _8BITS),NUMERO,_8BITS);
 													AdicionaTabela(TOBJ, GeraLixo(4), LIXO, NAO);
+													AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
 
-													PonteiroOpcode += 32;//instrução  8 bits, registrador 4 bits, numero 16 bits, lixo 4 bits
+													PonteiroOpcode += 32;//instrução  8 bits, registrador 4 bits, numero 8 bits, lixo 4 bits, lixo 8 bits
 												}
 											}
 											else if (RegistradoresEncontrados[0] && ObjetosEncontrados_FazRefMemoria[1] == false &&  ObjetosEncontradosTipos[2] == LABEL) {//AL label
@@ -1178,14 +1187,16 @@ eços simbólicos por endereços numéricos
 												validador = true;
 												AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 												Parser_Numero(ObjetosEncontrados[1]);
-												AdicionaTabela(TOBJ, InteiroParaCharBinario(Parser_Numero_Validado, _8BITS), NUMERO, _16BITS);
-												PonteiroOpcode += 24;//instrução  8 bits, valor 16 bits
+												AdicionaTabela(TOBJ, InteiroParaCharBinario(Parser_Numero_Validado, _16BITS), NUMERO, _16BITS);
+												AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+												PonteiroOpcode += 32;//instrução  8 bits, valor 16 bits, lixo 8 bits
 											}
 											else if (ObjetosEncontradosTipos[1] == LABEL && ObjetosEncontradosTipos[2] == -1) {//label
 												validador = true;
 												AdicionaTabela(TOBJ, &TInstrucao->Instrucoes[c], INSTRUCAO, NAO);
 												AdicionaTabela(TOBJ, ProcuraLabel(TLabels, ObjetosEncontrados[1]), LABEL, NAO);
-												PonteiroOpcode += 24;//instrução  8 bits, label 16 bits
+												AdicionaTabela(TOBJ, GeraLixo(8), LIXO, NAO);
+												PonteiroOpcode += 32;//instrução  8 bits, label 16 bits, lixo 8 bits
 											}
 
 										}
@@ -1306,7 +1317,7 @@ void Montador(Texto *fonte) {
 	AdicionaLog("Carregando Lista de Registradores");
 	AtualizaTelaMontador();
 
-	TRegistrador = CriaTabelaRegistrador();
+	TRegistrador = CriaTabelaRegistrador(NULL);
 	if (TRegistrador->TabelaValida == SIM) {
 		AdicionaLog("Carregamento finalizado - SEM ERROS");
 	}
@@ -1361,7 +1372,7 @@ void Montador(Texto *fonte) {
 		ArquivoFonteFinal->QntLinhas = 0;
 		ArquivoFonteFinal->Salvo = SIM;
 
-		PonteiroOpcode = 16;
+		PonteiroOpcode = 2048;// 100h -> 256bytes -> 2048 bits
 
 		AdicionaLog("Iniciando Parser");
 		AtualizaTelaMontador();
@@ -1381,7 +1392,7 @@ void Montador(Texto *fonte) {
 			scroll_pos = 0;
 			AtualizaTelaMontador();
 			transfer_window1_to_window2();
-			Menu_Opcao = generic_menu("Menu do montador", 10, 10, 5, 0, SIM, ' ', '>',
+			Menu_Opcao = MT2D_Menu("Menu do montador", 10, 10, 5, 0, SIM, ' ', '>',
 				"Sair",
 				"Ver tabela de Labels",
 				"Ver tabela de Registradores",
@@ -1393,7 +1404,7 @@ void Montador(Texto *fonte) {
 			switch (Menu_Opcao) {
 			case 1:
 				if (!CodigoSalvo) {
-					if (print_popup_wiht_result("Tentativa de sair", "Voce deseja sair sem gerar um opcode?", "SIM", "NAO") == 2) {
+					if (MT2D_MessageBox_With_Result("Tentativa de sair", "Voce deseja sair sem gerar um opcode?", "SIM", "NAO") == 2) {
 						Menu_Opcao = 0;
 					}
 				}
@@ -1401,7 +1412,7 @@ void Montador(Texto *fonte) {
 			case 2: // LABELS
 				do {
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 60, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 60, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Tabela de Labels", 2, (50 + 2) / 2, DISPLAY_WINDOW2);
 					insert_string_on_display("Label", 3, 3, DISPLAY_WINDOW2);
 					insert_string_on_display("Opcode", 3, 40, DISPLAY_WINDOW2);
@@ -1414,22 +1425,22 @@ void Montador(Texto *fonte) {
 							insert_number_on_display(TLabels->label[i].Opcode[j-40] == true ? 1 : 0, i - scroll_pos + 5, j, DISPLAY_WINDOW2); // porque dessa "gambiarra" ? pois por algum motivo o visual studio 2015 agora trata booleano true com valor de 205 e false com outro valor...
 						}
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < TLabels->quantidade) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
@@ -1437,7 +1448,7 @@ void Montador(Texto *fonte) {
 			case 3: //REGISTRADORES
 				do {
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 60, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 60, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Tabela de Registradores", 2, (40 + 2) / 2, DISPLAY_WINDOW2);
 					insert_string_on_display("Registrador", 3, 3, DISPLAY_WINDOW2);
 					insert_string_on_display("Opcode", 3, 17, DISPLAY_WINDOW2);
@@ -1467,22 +1478,22 @@ void Montador(Texto *fonte) {
 						}
 
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < TRegistrador->Quantidade) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
@@ -1490,7 +1501,7 @@ void Montador(Texto *fonte) {
 			case 4: // INSTRUÇÕES
 				do {
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 75, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 75, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Tabela de Instrucoes", 2, (40 + 2) / 2, DISPLAY_WINDOW2);
 					insert_string_on_display("Instrucao", 3, 3, DISPLAY_WINDOW2);
 					insert_string_on_display("Opcode", 3, 17, DISPLAY_WINDOW2);
@@ -1559,22 +1570,22 @@ void Montador(Texto *fonte) {
 							break;
 						}
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < TInstrucao->QntInstrucao) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
@@ -1582,7 +1593,7 @@ void Montador(Texto *fonte) {
 			case 5: // VARIAVEIS
 				do {
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 70, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 70, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Tabela de Variaveis", 2, (40 + 2) / 2, DISPLAY_WINDOW2);
 					insert_string_on_display("Variavel", 3, 3, DISPLAY_WINDOW2);
 					insert_string_on_display("Opcode", 3, 41, DISPLAY_WINDOW2);
@@ -1605,22 +1616,22 @@ void Montador(Texto *fonte) {
 						insert_number_on_display(TVariavel->Variaveis[i].Dado, i - scroll_pos + 5, 62, DISPLAY_WINDOW2);
 
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < TVariavel->Quantidade) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
@@ -1628,7 +1639,7 @@ void Montador(Texto *fonte) {
 			case 6: // OPCODE
 				do{
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 30, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 30, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Tabela de Opcode", 2, 4, DISPLAY_WINDOW2);
 					insert_string_on_display("Opcode", 3, 3, DISPLAY_WINDOW2);
 					insert_string_on_display("Tipo", 3, 21, DISPLAY_WINDOW2);
@@ -1690,29 +1701,29 @@ void Montador(Texto *fonte) {
 								break;
 						}
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < TOBJ->Quantidade) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
 				break;
 			case 7: // SALVAR OPCODE
 				do {
-					EndSalvo = get_string_popup("Digite o endereco a ser salvo");
+					EndSalvo = MT2D_InputBox_String("Digite o endereco a ser salvo");
 				} while (!EndSalvo);
 				Arquivo = fopen(EndSalvo, "w");
 				for (i = 0; i < TOBJ->Quantidade; i++) {
@@ -1723,7 +1734,7 @@ void Montador(Texto *fonte) {
 					for (j = l*i; j < 60; j++) {
 						WINDOW2[2][10+j] = ' ';
 					}
-					print_display(DISPLAY_WINDOW2);
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
 
 					switch (TOBJ->pilhaobj[i].Tipo) {
 					case REGISTRADOR:
@@ -1781,7 +1792,7 @@ void Montador(Texto *fonte) {
 						break;
 					}
 				}
-				print_popup("Opcode Salvo");
+				MT2D_MessageBox("Opcode Salvo");
 				fclose(Arquivo);
 				free(EndSalvo);
 				CodigoSalvo = true;
@@ -1789,7 +1800,7 @@ void Montador(Texto *fonte) {
 			case 8: //código fonte final
 				do {
 					transfer_window1_to_window2();
-					create_window_layout(2, 2, 50, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
+					MT2D_Create_Window_Layout(2, 2, 50, 20, SIM, SIM, NAO, ' ', DISPLAY_WINDOW2);
 					insert_string_on_display("Codigo fonte final", 2, 12, DISPLAY_WINDOW2);
 					insert_number_on_display(scroll_pos, 22,10, DISPLAY_WINDOW2);
 					insert_number_on_display(ArquivoFonteFinal->QntLinhas, 22,30, DISPLAY_WINDOW2);
@@ -1797,22 +1808,22 @@ void Montador(Texto *fonte) {
 					for (i = scroll_pos; i < ArquivoFonteFinal->QntLinhas && i - scroll_pos + 5 < 22; i++) {
 						insert_string_on_display(ArquivoFonteFinal->Linhas[i].Caracteres, i - scroll_pos + 5, 3, DISPLAY_WINDOW2);
 					}
-					print_display(DISPLAY_WINDOW2);
-					Menu_Opcao = Keyboard_keytouched();
-					if (Menu_Opcao == _key) {
-						Menu_Opcao = Keyboard_keytouched();
-						if (Menu_Opcao == key_up) {
+					MT2D_Draw_Window(DISPLAY_WINDOW2);
+					Menu_Opcao = MT2D_Keyboard_keytouched();
+					if (Menu_Opcao == arrow_key_pressed) {
+						Menu_Opcao = MT2D_Keyboard_keytouched();
+						if (Menu_Opcao == arrow_up_pressed) {
 							if (scroll_pos > 0) {
 								scroll_pos--;
 							}
 						}
-						else if (Menu_Opcao == key_down) {
+						else if (Menu_Opcao == arrow_down_pressed) {
 							if (scroll_pos + 5 < ArquivoFonteFinal->QntLinhas) {
 								scroll_pos++;
 							}
 						}
 					}
-					else if (Menu_Opcao == enter) {
+					else if (Menu_Opcao == enter_pressed) {
 						Menu_Opcao = 0;
 					}
 				} while (Menu_Opcao != 0);
