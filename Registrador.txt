@@ -1,0 +1,23 @@
+;Tamanho : 0 = 1Byte 1 = 2Bytes
+;Faz Referência a Memória: 0 = NÃO 1 = SIM
+;HIGH = 0 se é um reistrador de 1Byte, senão coloque o nome do registrador referente a parte alta
+;LOW = 0 se é um reistrador de 1Byte, senão coloque o nome do registrador referente a parte baixa
+;adicionar inicialmente os registradores de 1Byte para os registradores de 2Bytes poderem se referenciar com os registradores de 1Byte
+ ;e sim, até na tabela de registradores é permitido usar comentários...
+;NOME | Tamanho | Faz Referencia a Memória | OPCODE | HIGH | LOW (referencia por nome)
+ AH     0         0                          0000     0      0
+ AL     0         0                          0001     0      0
+ AX     1         0                          0010     AH     AL
+ BH     0         1                          0011     0      0
+ BL     0         1                          0100     0      0
+ BX     1         1                          0101     BH     BL
+ CL     0         0                          0110     0      0
+ CH     0         0                          0111     0      0
+ CX     1         0                          1000     CH     CL
+ DH     0         0                          1001     0      0
+ DL     0         0                          1010     0      0
+ DX     1         0                          1011     DH     DL
+ SP     1         0                          1100     0      0
+ BP     1         0                          1101     0      0
+ SI     1         0                          1110     0      0
+ DI     1         0                          1111     0      0
